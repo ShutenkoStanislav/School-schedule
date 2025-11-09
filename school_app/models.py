@@ -8,7 +8,7 @@ class Subject(models.Model):
 
 class  Teacher(models.Model):
     name = models.CharField(max_length=100)
-    expiriens = models.IntegerField()
+    experience = models.IntegerField()
     teacher_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
     def __str__(self):
         return self.name
@@ -26,16 +26,42 @@ class Student(models.Model):
     name = models.CharField(max_length=100)
     school_class = models.ForeignKey(Class, on_delete=models.CASCADE)
     avg_grade = models.FloatField()
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    
     def __str__(self):
         return self.name
+    
 
-# Create your models here.
 
-# Модель "Клас" (Class):
-# Модель "Учень" (Student):
-# Використовуйте ForeignKey для встановлення зв'язку між учнем та класом.
+    
+class Schedule_main(models.Model):
+    WEEK_DAY_LIST = [
+        ("MON", "понеділок"),
+        ("TUE", "вівторок"),
+        ("WED", "середа"),
+        ("THU", "четвер"),
+        ("FRI", "п'ятниця"),
+    ]
+    day_variant = models.CharField(max_length=3, choices=WEEK_DAY_LIST)
+    lesson_number = models.IntegerField()
+    conn_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    conn_class = models.ForeignKey(Class, on_delete=models.CASCADE)
+    conn_teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = ['day_variant', 'lesson_number', 'conn_class']
+    def __str__(self):
+        return f"{self.conn_class} - {self.day_variant}"
 
-# Модель "Предмет" (Subject):
-# Модель "Вчитель" (Teacher):
-# Використовуйте ForeignKey для встановлення зв'язку між вчителем та предметом.
+class Grade(models.Model):
+    number_grade = models.IntegerField(null=True, blank=True)
+    letter_grade = models.CharField(max_length=5,null=True, blank=True)
+    rel_student = models.ForeignKey(Student, on_delete=models.CASCADE)
+    rel_subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    def __str__(self):
+        return f"{self.rel_student} - {self.rel_subject}"
+
+# Модель "Розклад" (Schedule):
+# Використовуйте ForeignKey для встановлення зв'язків між розкладом, предметом, класом та вчителем.
+
+# Модель "Оцінка" (Grade):
+# Використовуйте ForeignKey для встановлення зв'язків між оцінкою, учнем та предметом.

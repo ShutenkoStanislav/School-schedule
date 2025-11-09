@@ -1,0 +1,57 @@
+# Віртуальне оточення
+venv/
+env/
+.venv/
+
+# Кеш та службові файли Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Конфігураційні файли IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Django файли
+*.log
+db.sqlite3
+media/
+staticfiles/
+*.pot
+*.pyc
+
+# Секретні ключі або середовище
+.env
+*.env
+
+# MacOS та інше
+.DS_Store
+Thumbs.db
+
+# Тести
+.coverage
+htmlcov/
+.tox/
+.pytest_cache/
+
+# Міграції (можна і залишити, якщо потрібно для спільної роботи)
+*/migrations/__pycache__/
+*/migrations/*.pyc
+# Якщо не хочеш заливати міграції:
+# */migrations/
+
+# Pipenv, Poetry
+Pipfile.lock
+poetry.lock
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# VS Code settings
+.vscode/
+
+# MyPy, Pyright
+.mypy_cache/
+.pyright/
