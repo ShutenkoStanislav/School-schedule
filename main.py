@@ -101,6 +101,37 @@ def add_subject():
 def  add_teacher():
     name = input("Введіть ім'я вчителя")
     experience = input("Введіть досвід вчителя")
+    if Teacher.objects.filter(name=name, experience=experience).exists():
+        print("Вчитель/ка вже існує!")
+    else:
+        Teacher.objects.create(name=name, experience=experience)
+        print("Вчитель/ка додано!")
+
+def add_class():
+    title = input("Введіть ім'я класу")
+    boys = input("Введіть кількість хлопців")
+    girls = input("Введіть кількість дівчат")
+    total_pupil = input("Введіть загальну кількість учнів")
+    if Class.objects.filter(title=title).exists():
+        print("Такий клас вже існує")
+    else:
+        Class.objects.create(title=title, boys=boys, girls=girls, total_pupil=total_pupil)
+        print("Клас додано")
+
+def add_student():
+    name = input("Введіть ім'я учня/учениці")
+    avg_grade = input("Введіть середній бал учня/учениці у вигляді 3.6")
+    if Student.objects.filter(name=name, avg_grade=avg_grade).exists():
+        print("Такий учнь/учениця вже існує")
+    else:
+        Student.objects.create(name=name, avg_grade=avg_grade)
+        print("Уцня/уцениця додана")
+
+
+
+
+
+    
 
 
 
@@ -119,11 +150,11 @@ def main():
         if choice == "1":
             add_subject()
         elif choice == '2':
-            pass
+            add_teacher()
         elif choice == '3':
-            pass
+            add_class()
         elif choice == '4':
-            pass
+            add_student()
         elif choice == '5':
             print("До побачення!")
             break
