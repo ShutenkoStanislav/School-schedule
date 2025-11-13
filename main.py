@@ -81,13 +81,12 @@
 import os
 import django
 from django.core.exceptions import ObjectDoesNotExist
-from school_app.models import Schedule_main, Student, Subject, Teacher, Grade, Class
-
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'school_schedule.settings')
-
-
 django.setup()
+
+
+from school_app.models import Schedule_main, Student, Subject, Teacher, Grade, Class
 
 
 def add_subject():
@@ -99,19 +98,25 @@ def add_subject():
         print("Предмет додано!")
 
 def  add_teacher():
-    name = input("Введіть ім'я вчителя")
-    experience = input("Введіть досвід вчителя")
+    name = input("Введіть ім'я вчителя: ")
+    experience = input("Введіть досвід вчителя: ")
+    print("Тепер додамо предмет до вчителя/ки: ")
+    all_subject = Subject.objects.all()
+    print("Список предметів: ")
+    print(all_subject)
+    id_subject = int(input("Введіті ID предмету: "))
+    subject = Subject.objects.get(id=id_subject)
     if Teacher.objects.filter(name=name, experience=experience).exists():
         print("Вчитель/ка вже існує!")
     else:
-        Teacher.objects.create(name=name, experience=experience)
+        Teacher.objects.create(name=name, experience=experience, teacher_subject=subject)
         print("Вчитель/ка додано!")
 
 def add_class():
-    title = input("Введіть ім'я класу")
-    boys = input("Введіть кількість хлопців")
-    girls = input("Введіть кількість дівчат")
-    total_pupil = input("Введіть загальну кількість учнів")
+    title = input("Введіть ім'я класу: ")
+    boys = int(input("Введіть кількість хлопців: "))
+    girls = int(input("Введіть кількість дівчат: " ))
+    total_pupil = boys + girls
     if Class.objects.filter(title=title).exists():
         print("Такий клас вже існує")
     else:
@@ -119,12 +124,20 @@ def add_class():
         print("Клас додано")
 
 def add_student():
-    name = input("Введіть ім'я учня/учениці")
-    avg_grade = float(input("Введіть середній бал учня/учениці у вигляді 3.6"))
-    if Student.objects.filter(name=name, avg_grade=avg_grade).exists():
+    name = input("Введіть ім'я учня/учениці: ")
+    avg_grade = float(input("Введіть середній бал учня/учениці у вигляді 3.6: "))
+    classes = Class.objects.all()
+    print("\nТепер підєднаюмо учня/учениці до класу ")
+    print("\nДоступні класи: ")
+    print(classes)
+
+    class_id = input("Введіть ID класу: ")
+    school_class = Class.objects.get(id=class_id)
+
+    if Student.objects.filter(name=name, avg_grade=avg_grade, school_class=school_class).exists():
         print("Такий учнь/учениця вже існує")
     else:
-        Student.objects.create(name=name, avg_grade=avg_grade)
+        Student.objects.create(name=name, avg_grade=avg_grade, school_class=school_class)
         print("Уцня/уцениця додана")
 
 
