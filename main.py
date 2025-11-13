@@ -120,7 +120,7 @@ def add_class():
 
 def add_student():
     name = input("Введіть ім'я учня/учениці")
-    avg_grade = input("Введіть середній бал учня/учениці у вигляді 3.6")
+    avg_grade = float(input("Введіть середній бал учня/учениці у вигляді 3.6"))
     if Student.objects.filter(name=name, avg_grade=avg_grade).exists():
         print("Такий учнь/учениця вже існує")
     else:
@@ -144,7 +144,7 @@ def main():
         print("1 - Додати предмет")
         print("2 - Додати вчителя")
         print("3 - Додати клас")
-        print("3 - Додати учня")
+        print("4 - Додати учня")
         print("5 - Вихід")
         choice = input("Оберіть дію:")
         if choice == "1":
@@ -161,5 +161,5 @@ def main():
         else:
             print("Невірний вибір!")
 
-if __name__ == "_main__":
+if __name__ == "__main__":
     main()
