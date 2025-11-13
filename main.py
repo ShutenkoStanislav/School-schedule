@@ -141,6 +141,68 @@ def add_student():
         print("Уцня/уцениця додана")
 
 
+def add_lesson_schedule():
+    print("\nДні тижня: 1-ПН, 2-ВТ, 3-СР, 4-ЧТб 5-ПТ")
+    day_num = int(input("Введіть номер дня тижня: "))
+    days = ["MON","TUE","WED","THU","FRI"]
+    day_variant = days[day_num - 1]
+    
+    lesson_number = int(input("Введіть номер урока (1-9): "))  
+    
+
+    all_subject = Subject.objects.all()
+    print("\nДоступні уроки: ", all_subject)
+    subject_id = int(input("ID предмета: "))
+    conn_subject = Subject.objects.get(id=subject_id)
+
+    all_class = Class.objects.all()
+    print("\nДоступні класи: ", all_class)
+    class_id = int(input("ID класа: "))
+    conn_class = Class.objects.get(id=class_id)
+
+    all_teachers = Teacher.objects.all()
+    print("\nДоступні вчителі: ",all_teachers)
+    teacher_id = int(input("ID вчителя: "))
+    conn_teacher = Teacher.objects.get(id=teacher_id)
+
+    if Schedule_main.objects.filter(lesson_number=lesson_number,day_variant=day_variant,conn_class=conn_class).exists():
+        print("\nЦей урок вже зайнятий!")
+    else:
+        Schedule_main.objects.create(lesson_number=lesson_number,day_variant=day_variant,conn_class=conn_class, conn_teacher=conn_teacher, conn_subject=conn_subject)
+        print("\nРозклад додано!")
+
+def add_grade():
+    all_student = Student.objects.all()
+    print("\nУсі вільні учні\учениці:", all_student)
+    student_id = int(input("ID учня\учениці: "))
+    rel_student = Student.objects.get(id=student_id)
+
+    all_lessons = Subject.objects.all()
+    print("\nУсі вільні предмети: ", all_lessons)
+    lesson_id = int(input("ID предмета: "))
+    rel_subject = Subject.objects.get(id=lesson_id)
+
+    var_grade = int(input("\nВиберт формат оцінки 1-Цифрою, 2-Буквою: "))
+    number_grade = None
+    letter_grade = None
+    
+    if var_grade == 1:
+        number_grade = int(input("Оцінка цифрою: "))
+    else:
+        letter_grade = input("Оцінка буквою: ")
+
+    
+
+    Grade.objects.create(number_grade=number_grade,
+                        letter_grade=letter_grade,
+                        rel_subject=rel_subject,
+                        rel_student=rel_student)
+    print("Оцінку додано!")
+
+
+
+
+
 
 
 
@@ -158,7 +220,10 @@ def main():
         print("2 - Додати вчителя")
         print("3 - Додати клас")
         print("4 - Додати учня")
-        print("5 - Вихід")
+        print("5 - Додати заняття в розклад")
+        print("6 - Додати оцінку")
+        print("7 - Кінець")
+
         choice = input("Оберіть дію:")
         if choice == "1":
             add_subject()
@@ -169,6 +234,10 @@ def main():
         elif choice == '4':
             add_student()
         elif choice == '5':
+            add_lesson_schedule()
+        elif choice == '6':
+            add_grade()
+        elif choice == '7':
             print("До побачення!")
             break
         else:
